@@ -4,7 +4,7 @@ var connection = mysql.createConnection({
   host     : 'localhost',
   user     : 'root',
   password : 'FILL_ME_IN',
-  database : 'test'
+  database : 'billSplit'
 });
 
 var selectAll = function(callback) {
@@ -17,4 +17,5 @@ var selectAll = function(callback) {
   });
 };
 
+module.exports.connection = connection;
 module.exports.selectAll = selectAll;
