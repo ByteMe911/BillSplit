@@ -3,8 +3,8 @@ var mysql = require('mysql');
 var connection = mysql.createConnection({
   host     : 'localhost',
   user     : 'root',
-  password : 'password',
-  database : 'usertest'
+  password : 'FILL_ME_IN',
+  database : 'billSplit'
 });
 
 
@@ -73,5 +73,6 @@ var selectAll = function(callback) {
   });
 };
 
+module.exports.connection = connection;
 module.exports.selectAll = selectAll;
 module.exports.checkIfTheUserExists = checkIfTheUserExists;
