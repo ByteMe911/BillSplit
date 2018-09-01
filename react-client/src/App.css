@@ -1,0 +1,84 @@
+.App {
+#  text-align: center;
+}
+
+.App-logo {
+  animation: App-logo-spin infinite 20s linear;
+  height: 80px;
+}
+
+.App-header {
+  background-color: #222;
+  height: 150px;
+  padding: 20px;
+  color: white;
+}
+
+.App-title {
+  font-size: 1.5em;
+}
+
+.App-intro {
+  font-size: large;
+}
+
+header {
+    background-color: #888;
+    padding: 10px;
+    text-align: center;
+    font-size: 25px;
+    color: white;
+}
+
+user {
+    background-color: #888;
+    padding: 10px;
+    text-align: center;
+    font-size: 15px;
+    color: white;
+    width:50%;
+}
+
+splitbutton {
+    background-color: #e0ffe0;
+    padding: 10px;
+    text-align: center;
+    font-size: 15px;
+    font-weight: bold;
+    color: black;
+    width:50%;
+    border:2px;
+    border-style:solid;
+    border-color:gray;
+}
+
+@keyframes App-logo-spin {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
+
+table {
+    font-family: arial, sans-serif;
+    border-collapse: collapse;
+    width: 75%;
+}
+
+table2 {
+    font-family: arial, sans-serif;
+    border-collapse: collapse;
+    width: 25%;
+}
+
+td, th {
+    border: 1px solid #dddddd;
+    text-align: left;
+    padding: 8px;
+}
+
+tr:nth-child(even) {
+    background-color: #e0ffe0;
+}
+
+tr2: {
+    background-color: #eeeeee;
+}
