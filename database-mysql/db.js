@@ -55,4 +55,69 @@ const insert = {
 
 }
 
-module.exports.insert = insert
+const select = {
+
+  currentUserLoginId: function(username, callback) {
+    //this function will use the username from logging in to search the
+    //userLogin table and find and return that users id for use in other quaries.
+    let queryStr = 'SELECT userId FROM userLogin \
+    WHERE username = username';
+    db.query(queryStr, function(err, result) {
+      if (err) {
+        console.log(err);
+      } else {
+        callback(result);
+      }
+    });
+  },
+
+  //used to select the debt id for use in other quaries
+  debtId: function(debtor, creditor, eventId, callback) {
+    let query = 'SELECT id FROM debt \
+    WHERE debtor = debtor AND creditor = creditor AND event = eventId'
+    db.query(queryStr, function(err, result) {
+      if (err) {
+        console.log(err);
+      } else {
+        callback(result);
+      }
+    });
+  },
+
+  //used to select debt amount between 2 people
+  debtAmount: function(debtId, callback) {
+    let queryStr = 'SELECT amount FROM debt \
+    WHERE id = debtId';
+    db.query(queryStr, function(err, result) {
+      if (err) {
+        console.log(err);
+      } else {
+        callback(result);
+      }
+    });
+  }
+
+  //select how many debts and how much in total is owned between users
+
+}
+
+const update = {
+
+  //used to update debt amount between 2 people
+  debtAmount: function(debtId, newAmt callback) {
+    let queryStr = 'UPDATE debt SET amount = newAmt \
+    WHERE id = debtId'
+    db.query(queryStr, function(err, result) {
+      if (err) {
+        console.log(err);
+      } else {
+        callback(result);
+      }
+    });
+  }
+
+}
+
+module.exports.insert = insert;
+module.exports.select = select;
+module.exports.update = update;

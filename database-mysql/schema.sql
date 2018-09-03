@@ -40,11 +40,13 @@ CREATE TABLE IF NOT EXISTS debt (
   id int NOT NULL AUTO_INCREMENT,
   debtor int,
   creditor int,
-  amount NUMERIC(18,2) NOT NULL,
+  event int,
   userLoginID int,
+  amount NUMERIC(18,2) NOT NULL,
   FOREIGN KEY (debtor) REFERENCES member(id),
   FOREIGN KEY (creditor) REFERENCES member(id),
   FOREIGN KEY (userLoginID) REFERENCES userLogin(id),
+  FOREIGN KEY (event) REFERENCES event(id),
   PRIMARY KEY (id)
 );
 
