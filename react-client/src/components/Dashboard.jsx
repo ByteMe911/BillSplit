@@ -4,7 +4,10 @@ import BillSplits from './BillSplits.jsx';
 import UserInfo from './UserInfo.jsx';
 import BillSplitItem from './BillSplitItem.jsx';
 import DebtsSummary from './DebtsSummary.jsx';
-// import './App.css';
+import App from '../index.jsx';
+import Signup from './Signup.jsx'
+
+
 
 class Dashboard extends Component {
   // constructor(props) {
@@ -53,7 +56,7 @@ class Dashboard extends Component {
       <splitbutton><a>Add a New Split</a></splitbutton>
             <br />
             <br />
-        <BillSplits billsplititems={this.state.billsplititems} />
+        <BillSplits/>
       </div>
     );
   }
