@@ -77,3 +77,18 @@ var selectAll = function(callback) {
 
 module.exports.selectAll = selectAll;
 module.exports.checkIfTheUserExists = checkIfTheUserExists;
+});
+
+connection.connect();
+
+// var selectAll = function(callback) {
+//   connection.query('SELECT * FROM items', function(err, results, fields) {
+//     if(err) {
+//       callback(err, null);
+//     } else {
+//       callback(null, results);
+//     }
+//   });
+// };
+
+module.exports.connection = connection;
