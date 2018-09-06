@@ -1,8 +1,12 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
+import { BrowserRouter } from 'react-router-dom';
+import { BrowserRouter as Router, Route, Link } from "react-router-dom";
+import { Switch } from 'react-router-dom';
 import $ from 'jquery';
 import Dashboard from './components/Dashboard.jsx';
 import Signup from './components/Signup.jsx';
+import Login from './components/Login.jsx';
 import List from './components/List.jsx';
 
 
@@ -16,15 +20,15 @@ class App extends React.Component {
     };
     this.handlePasswordChange = this.handlePasswordChange.bind(this);
     this.handleUsernameChange = this.handleUsernameChange.bind(this);
-    this.handleSubmit = this.handleSubmit.bind(this);
+    //this.handleSubmit = this.handleSubmit.bind(this);
     this.signupClick = this.signupClick.bind(this);
     this.handleSignup = this.handleSignup.bind(this);
     this.handleLogin = this.handleLogin.bind(this);
-    
+
   }
   componentDidMount() {
     $.ajax({
-      url: '/items',
+      url: '/login',
       success: (data) => {
         this.setState({
           items: data
@@ -43,10 +47,10 @@ class App extends React.Component {
     this.setState({password: event.target.value});
     console.log("password is:", this.state.password);
   }
-  handleSubmit(event) {
+  /*handleSubmit(event) {
   console.log("inside search")
-  
-    $.post('http://localhost:3000/items',
+
+    $.post('http://localhost:3000/login',
     {username : this.state.username + ':'+this.state.password},
     function(data, status) {
       console.log('status', status);
@@ -57,7 +61,7 @@ class App extends React.Component {
     alert('A pw was submitted: ' + this.state.password);
     // search(this.state.username,this.state.password);
     // event.preventDefault();
-  }
+  }*/
 
   handleSignup() {
     console.log('from handle signup');
@@ -86,7 +90,43 @@ class App extends React.Component {
   render () {
     return (
       <div>
-      <h1>BillSplit</h1>
+        <img src='https://i.imgur.com/4QmfcsS.png' align="middle"></img>
+        <Router>
+      <div>
+      <ul>
+        <li>
+          <Link to="/">Home</Link>
+        </li>
+        <li>
+          <Link to="/signup">Signup</Link>
+        </li>
+        <li>
+          <Link to="/dashboard">Dashboard</Link>
+        </li>
+      </ul>
+      <Route exact path="/" component={Login} />
+      <Route path="/signup" component={Signup} />
+      <Route path="/dashboard" component={Dashboard} />
+    </div>
+  </Router>
+
+    </div>
+    )
+  }
+}
+
+ReactDOM.render((
+  <BrowserRouter>
+    <App />
+  </BrowserRouter>
+), document.getElementById('app'));
+
+
+
+
+
+
+  /*<h1>BillSplit</h1>
       <h2> Login </h2>
       <List items={this.state.items}/>
       <form onSubmit={this.handleSubmit}>
@@ -100,10 +140,4 @@ class App extends React.Component {
         </label>
         <input type="submit" value="Submit" />
       </form>
-      <button onClick={this.handleSignup} >Create New Account</button>
-    </div>
-    )
-  }
-}
-
-ReactDOM.render(<App />, document.getElementById('app'));
+      <button onClick={this.handleSignup} >Create New Account</button>*/

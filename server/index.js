@@ -12,9 +12,10 @@ app.use(express.static(__dirname + '/../react-client/dist'));
 // UNCOMMENT FOR ANGULAR
 // app.use(express.static(__dirname + '/../angular-client'));
 // app.use(express.static(__dirname + '/../node_modules'));
-app.post('/items', function (req, res) {
+app.post('/login', function (req, res) {
   console.log('Inside server req body',req.body);
   var userNamePassword = req.body.username;
+  console.log('usernamepassword',userNamePassword);
   var userNamePasswordArray = userNamePassword.split(':');
   console.log(userNamePasswordArray);
   items.checkIfTheUserExists(userNamePasswordArray);
@@ -26,7 +27,7 @@ app.post('/signup', function (req, res) {
 app.get('/signup', function (req, res) {
   console.log('Inside server req body',req.body);
 });
-app.get('/items', function (req, res) {
+app.get('/login', function (req, res) {
   items.selectAll(function(err, data) {
     if(err) {
       res.sendStatus(500);
