@@ -1,6 +1,7 @@
 var express = require('express');
 var bodyParser = require('body-parser');
-const db = require('../database-mysql/index.js')
+//const db = require('../database-mysql/index.js')
+const db = require('../database-mysql/db.js');
 // UNCOMMENT THE DATABASE YOU'D LIKE TO USE
 var items = require('../database-mysql');
 // var items = require('../database-mongo');
@@ -36,6 +37,32 @@ app.get('/login', function (req, res) {
     }
   });
 });
+
+app.post('/createEvent', function (req, res) {
+  console.log(req.body);
+  let members = [];
+  let eventName = req.body.eventName;
+  let billCost = req.body.billCost; //string
+
+
+  for (let i = 0; i < req.body.members.length; i++) {
+    members.push(req.body.members[i].name);
+  }
+  db.insert.event(eventName, 1, function(result) {
+    //console.log('insertEvent post success', result);
+  }); // Query to find eventId
+
+  for (let i = 0; i < members.length; i++) {
+    db.insert.member(members[i], 1, function(result) {
+      //console.log('insertMember post success', result);
+    });
+  }
+
+
+  //console.log('Post members ', members);
+  console.log('createEvent Post');
+});
+
 app.listen(3000, function() {
   console.log('listening on port 3000!');
 });

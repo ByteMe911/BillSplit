@@ -6,8 +6,8 @@ const insert = {
   //there is a lot of repeating. I will refactor to implement DRY
 
   member: function (memberName, userLoginID, callback) {
-    let queryStr = 'insert into member (memberName, userLoginID) \
-    value (memberName, userLoginID)'
+    let queryStr = `insert into member (memberName, userLoginID) \
+    value ('${memberName}', ${userLoginID})`
     db.query(queryStr, function(err, result) {
       if (err) {
         console.log(err)
@@ -18,11 +18,13 @@ const insert = {
   },
 
   event: function(eventName, userLoginID, callback) {
-    let queryStr = 'insert into event (eventName, userLoginID) \
-    value (eventName, userLoginID)'
+    let queryStr = `insert into event (eventName, userLoginID) \
+    value ('${eventName}', ${userLoginID})`
+    console.log('db.js ', eventName);
+    console.log('kajdhflkjdshlkadhkajh ', queryStr)
     db.query(queryStr, function(err, result) {
       if (err) {
-        console.log(err)
+        console.log(err);
       } else {
         callback(result);
       }
@@ -104,7 +106,7 @@ const select = {
 const update = {
 
   //used to update debt amount between 2 people
-  debtAmount: function(debtId, newAmt callback) {
+  debtAmount: function(debtId, newAmt, callback) {
     let queryStr = 'UPDATE debt SET amount = newAmt \
     WHERE id = debtId'
     db.query(queryStr, function(err, result) {
@@ -121,3 +123,5 @@ const update = {
 module.exports.insert = insert;
 module.exports.select = select;
 module.exports.update = update;
+
+//insert into member (memberName, userLoginID) value ('Adam', 0)

@@ -8,6 +8,7 @@ import Dashboard from './components/Dashboard.jsx';
 import Signup from './components/Signup.jsx';
 import Login from './components/Login.jsx';
 import List from './components/List.jsx';
+import CreateEvent from './components/CreateEvent.jsx';
 
 
 class App extends React.Component {
@@ -103,10 +104,14 @@ class App extends React.Component {
         <li>
           <Link to="/dashboard">Dashboard</Link>
         </li>
+        <li>
+          <Link to="/createEvent">Create Event</Link>
+        </li>
       </ul>
       <Route exact path="/" component={Login} />
       <Route path="/signup" component={Signup} />
       <Route path="/dashboard" component={Dashboard} />
+      <Route path="/createEvent" component={CreateEvent} />
     </div>
   </Router>
 
