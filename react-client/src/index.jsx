@@ -1,7 +1,12 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import { BrowserRouter } from 'react-router-dom';
-import { BrowserRouter as Router, Route, Link } from "react-router-dom";
+import {
+  BrowserRouter as Router,
+  Route,
+  Link,
+  Redirect,
+  withRouter
+} from "react-router-dom";
 import { Switch } from 'react-router-dom';
 import $ from 'jquery';
 import Dashboard from './components/Dashboard.jsx';
@@ -18,15 +23,15 @@ class App extends React.Component {
       username: '',
       password: ''
     };
-    this.handlePasswordChange = this.handlePasswordChange.bind(this);
+    /*this.handlePasswordChange = this.handlePasswordChange.bind(this);
     this.handleUsernameChange = this.handleUsernameChange.bind(this);
     //this.handleSubmit = this.handleSubmit.bind(this);
     this.signupClick = this.signupClick.bind(this);
     this.handleSignup = this.handleSignup.bind(this);
-    this.handleLogin = this.handleLogin.bind(this);
+    this.handleLogin = this.handleLogin.bind(this);*/
 
   }
-  componentDidMount() {
+  /*componentDidMount() {
     $.ajax({
       url: '/login',
       success: (data) => {
@@ -38,8 +43,11 @@ class App extends React.Component {
         console.log('err', err);
       }
     });
-  }
-  handleUsernameChange(event) {
+  }*/
+
+
+
+  /*handleUsernameChange(event) {
     this.setState({username: event.target.value});
     console.log("username is:", this.state.username);
   }
@@ -47,21 +55,7 @@ class App extends React.Component {
     this.setState({password: event.target.value});
     console.log("password is:", this.state.password);
   }
-  /*handleSubmit(event) {
-  console.log("inside search")
 
-    $.post('http://localhost:3000/login',
-    {username : this.state.username + ':'+this.state.password},
-    function(data, status) {
-      console.log('status', status);
-      console.log('data', data); });
-      this.setState({items: data});
-      // TODO
-    alert('A user was submitted: ' + this.state.username);
-    alert('A pw was submitted: ' + this.state.password);
-    // search(this.state.username,this.state.password);
-    // event.preventDefault();
-  }*/
 
   handleSignup() {
     console.log('from handle signup');
@@ -76,17 +70,8 @@ class App extends React.Component {
   signupClick() {
   console.log("I am in signupclick");
   <Route path="/about" component={About} />
-}
-  search (uname) {
-  console.log("inside search")
-    $.post('http://localhost:3000/items',
-    {username : uname},
-    function(data, status) {
-      console.log('status', status);
-      console.log('data', data); });
-      this.setState({items: data});
-      // TODO
-    }
+}*/
+
   render () {
     return (
       <div>
@@ -95,7 +80,7 @@ class App extends React.Component {
       <div>
       <ul>
         <li>
-          <Link to="/">Home</Link>
+          <Link to="/Login">Login</Link>
         </li>
         <li>
           <Link to="/signup">Signup</Link>
@@ -104,7 +89,7 @@ class App extends React.Component {
           <Link to="/dashboard">Dashboard</Link>
         </li>
       </ul>
-      <Route exact path="/" component={Login} />
+      <Route exact path="/Login" component={Login} />
       <Route path="/signup" component={Signup} />
       <Route path="/dashboard" component={Dashboard} />
     </div>
@@ -116,28 +101,12 @@ class App extends React.Component {
 }
 
 ReactDOM.render((
-  <BrowserRouter>
+  <Router>
     <App />
-  </BrowserRouter>
+  </Router>
 ), document.getElementById('app'));
 
 
 
 
 
-
-  /*<h1>BillSplit</h1>
-      <h2> Login </h2>
-      <List items={this.state.items}/>
-      <form onSubmit={this.handleSubmit}>
-        <label>
-          UserName:
-          <input type="text" username={this.state.value} onChange={this.handleUsernameChange} />
-        </label>
-        <label>
-          Password:
-          <input type="text" password={this.state.value} onChange={this.handlePasswordChange} />
-        </label>
-        <input type="submit" value="Submit" />
-      </form>
-      <button onClick={this.handleSignup} >Create New Account</button>*/
