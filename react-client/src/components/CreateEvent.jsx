@@ -11,10 +11,15 @@ class createEvent extends Component {
     this.handleAddMember = this.handleAddMember.bind(this);
     this.handleCostChange = this.handleCostChange.bind(this);
     this.handleFormSubmit = this.handleFormSubmit.bind(this);
+    this.handleSelectChange = this.handleSelectChange.bind(this);
+    this.handleChangePayee = this.handleChangePayee.bind(this);
+    this.handleRemoveMember = this.handleRemoveMember.bind(this);
 
     this.state = {
       eventName: '',
       billCost: '',
+      selectedMember: '',
+      payee: '',
       name: '',
       members: []
     }
@@ -36,18 +41,6 @@ class createEvent extends Component {
     console.log(this.state)
   }
 
-  handleMemberChange(event) {
-    this.setState({name: event.target.value});
-  }
-
-  handleEventChange(event) {
-    this.setState({eventName: event.target.value})
-  }
-
-  handleCostChange(event) {
-    this.setState({billCost: event.target.value})
-  }
-
   handleFormSubmit(event) {
     fetch('http://localhost:3000/createEvent',
     {
@@ -59,10 +52,39 @@ class createEvent extends Component {
       body: JSON.stringify({
         eventName: this.state.eventName,
         billCost: this.state.billCost,
-        members: this.state.members
+        members: this.state.members,
+        payee: this.state.payee
       })
     })
   }
+
+  handleChangePayee(event) {
+    this.setState({payee: this.state.selectedMember});
+    console.log(this.state.payee);
+  }
+
+  handleSelectChange(event) {
+    this.setState({selectedMember: event.target.value});
+  }
+
+  handleMemberChange(event) {
+    this.setState({name: event.target.value});
+  }
+
+  handleEventChange(event) {
+    this.setState({eventName: event.target.value});
+  }
+
+  handleCostChange(event) {
+    this.setState({billCost: event.target.value})
+  }
+
+  handleRemoveMember(event) {
+    for (let i = 0; i < this.state.members.lenght; i++) {
+
+    }
+  }
+
 
   render() {
     return (
@@ -102,14 +124,27 @@ class createEvent extends Component {
         <h4>Event Members</h4>
         <div>
           <button type="button" onClick={this.handleAddMember}>Add member</button>
+          <button type="button" onClick={this.handleChangePayee}>Make Payee</button>
+          <button type="button" onClick={this.handleRemoveMember}>Remove Member</button>
         </div>
         <input
           type="text"
           onChange={this.handleMemberChange}
           value={this.state.name}
         />
+        <select value={this.state.selectedMember} onChange={this.handleSelectChange}>
+          {
+            this.state.members.map(function(member) {
+              return <option value={member.name}>{member.name}</option>
+            })
+          }
+        </select>
         <div>
           <button type='button' onClick={this.handleFormSubmit}>Create Split</button>
+        </div>
+
+        <div>
+          <p>{this.state.payee} paid the bill</p>
         </div>
 
       </form>
