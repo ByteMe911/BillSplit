@@ -1,5 +1,7 @@
 var express = require('express');
 var bodyParser = require('body-parser');
+var session = require('express-session');
+
 const db = require('../database-mysql/index.js')
 // UNCOMMENT THE DATABASE YOU'D LIKE TO USE
 var items = require('../database-mysql');
@@ -12,18 +14,52 @@ app.use(express.static(__dirname + '/../react-client/dist'));
 // UNCOMMENT FOR ANGULAR
 // app.use(express.static(__dirname + '/../angular-client'));
 // app.use(express.static(__dirname + '/../node_modules'));
-app.post('/login', function (req, res) {
-  console.log('Inside server req body',req.body);
-  var userNamePassword = req.body.username;
-  console.log('usernamepassword',userNamePassword);
-  var userNamePasswordArray = userNamePassword.split(':');
-  console.log(userNamePasswordArray);
-  items.checkIfTheUserExists(userNamePasswordArray);
-  //items.insertUser(req.body);
-});
+app.use(session({secret: 'ssshhhhh'}));
+
+  app.post('/login', function (req, res) {
+  //sess=req.session;
+  //console.log("sess", sess);
+    console.log('Inside server req body',req.body);
+    var userName = req.body.username;
+    console.log('username',userName);
+    var password = req.body.password;
+    console.log('password', password);
+    var data = userName+':'+password;
+
+    items.checkIfTheUserExists(data, function(result) {
+      console.log("result",result);
+      if (result === 'success') {
+        res.send('dashboard');
+      } else if(result === 'nouser') {
+        res.send('signup');
+      } else {
+        res.send('login');
+      }
+    });
+  });
+
 app.post('/signup', function (req, res) {
   console.log('Inside server req body',req.body);
+   var userName = req.body.username;
+    console.log('username',userName);
+    var password = req.body.password;
+    console.log('password', password);
+    var data = userName+':'+password;
+    items.saveUser(data, function(result) {
+      console.log("result", result);
+      if(result === 'inserted') {
+        console.log('signupsuccessful');
+        //res.send('dashboard');
+        res.send('dashboard');
+      }
+    });
 });
+
+app.get('/dashboard', function (req, res) {
+  console.log('Inside server req body',req.body);
+  console.log('Inside serv res',res.body)
+});
+
 app.get('/signup', function (req, res) {
   console.log('Inside server req body',req.body);
 });

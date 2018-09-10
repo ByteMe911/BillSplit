@@ -1,67 +1,90 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import App from '../index.jsx'
-import Dashboard from './Dashboard.jsx'
+import App from '../index.jsx';
+import $ from 'jquery';
+
+import {
+  BrowserRouter as Router,
+  Route,
+  Link,
+  Redirect,
+  withRouter
+} from "react-router-dom";
+import { Switch } from 'react-router-dom';
+import Dashboard from './Dashboard.jsx';
+
+
 
 class Login extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      items: [],
       username: '',
-      password: ''
+      password: '',
+      toWhere: ''
     };
+    this.handleUsernameChange = this.handleUsernameChange.bind(this);
+    this.handlePasswordChange = this.handlePasswordChange.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
-    }
-
-    handleSubmit(event) {
-  console.log("inside login handlesubmit")
-
-    $.post('http://localhost:3000/login',
-    {username : this.state.username + ':'+this.state.password},
-    function(data, status) {
-      console.log('status', status);
-      console.log('data', data); });
-      this.setState({items: data});
-      // TODO
-    alert('A user was submitted: ' + this.state.username);
-    alert('A pw was submitted: ' + this.state.password);
-    // search(this.state.username,this.state.password);
-    // event.preventDefault();
   }
-render () {
-    return (
-  <div>
-  <h2>Login</h2>
-<form action="/login" method="post" onSubmit={this.handleSubmit}>
 
-      <label>Username:</label>
-      <input id="username" type="text" name="username">
-      </input>
-      <label>Password:</label>
-      <input id="password" type="password" name="password">
-      </input>
-      <input type="submit" value="Log in">
-      </input>
-</form>
-</div>
-);
-}
-}
+  handleUsernameChange(e) {
+    this.setState({username: e.target.value});
+  }
+
+  handlePasswordChange(e) {
+    this.setState({password: e.target.value});
+  }
+  handleSubmit(e) {
+    e.preventDefault();
+    console.log(this.state.username);
+    console.log(this.state.password);
+    let currentComponent = this;
+    console.log("currentComponent", currentComponent);
+    $.post('http://localhost:3000/login',
+      {username : this.state.username + ':'+this.state.password},
+        function(data,status) {
+          console.log("data", data);
+          console.log("status", status);
+          if(data === 'dashboard') {
+            currentComponent.setState({toWhere: 'dashboard'});
+          } else if (data === 'signup') {
+            currentComponent.setState({toWhere: 'signup'});
+          } else {
+            currentComponent.setState({toWhere: 'login'});
+          }
+        }).then(() => console.log(this.state.toWhere,"toWhere value"));/*.then(() =>this.setState(() => ({
+          toWhere: 'dashboard'
+          })))*/
+  }
+  render() {
+    if (this.state.toWhere === 'dashboard') {
+      return <Redirect to='/dashboard' />
+    } else if (this.state.toWhere === 'signup') {
+      return <Redirect to='/signup' />
+    } else {
+      return (
+        <div>
+          <form onSubmit={this.handleSubmit}>
+            <label htmlFor="username">Username</label>
+              <input
+                type="text"
+                value={this.state.username}
+                onChange={this.handleUsernameChange}
+                name="username" />
+            <label htmlFor="password">Password</label>
+              <input
+                type="password"
+                value={this.state.password}
+                onChange={this.handlePasswordChange}
+                name="password" />
+            <input type="submit" value="Submit" />
+          </form>
+        </div>
+      );
+    }
+  }
+};
 
 export default Login;
-/*<h1>BillSplit</h1>
-      <h2> Login </h2>
-      <List items={this.state.items}/>
-      <form onSubmit={this.handleSubmit}>
-        <label>
-          UserName:
-          <input type="text" username={this.state.value} onChange={this.handleUsernameChange} />
-        </label>
-        <label>
-          Password:
-          <input type="text" password={this.state.value} onChange={this.handlePasswordChange} />
-        </label>
-        <input type="submit" value="Submit" />
-      </form>
-      <button onClick={this.handleSignup} >Create New Account</button>*/
+
