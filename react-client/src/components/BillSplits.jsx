@@ -4,13 +4,13 @@ import BillSplitItem from './BillSplitItem.jsx';
 class BillSplits extends Component {
 
   render() {
-  //  console.log(this.props.billsplititems);
+    console.log("Bill Splits Component");
     let billSplitItems;
     if (this.props.billsplititems) {
-        billSplitItems = this.props.billsplititems.map(function(billsplititem) {
-        console.log(billsplititem);
-        return (<BillSplitItem key={billsplititem.eventid} billsplititem={billsplititem} />)
-     });
+        billSplitItems = this.props.billsplititems.map(billsplititem => {
+     //     console.log("item " + billsplititem);
+          return (<BillSplitItem key={billsplititem.id} billsplititem={billsplititem} />);
+       });
    }
     return (
       <div className="BillSplits">

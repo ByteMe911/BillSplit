@@ -3,7 +3,7 @@ var mysql = require('mysql');
 var connection = mysql.createConnection({
  host     : 'localhost',
  user     : 'root',
- password : '',
+ password : 'password',
  database : 'billSplit'
 });
 
@@ -87,8 +87,23 @@ var selectAll = function(callback) {
  });
 };
 
+var listBillSplits = function(callback) {
+ console.log("list bill splits");
+ connection.query('SELECT * FROM debt', function(err, results, fields) {
+ // connection.query('SELECT id, member.memberName FROM debt INNER JOIN member ON debt.debtor=member.id', function(err, results, fields) {
+   if(err) {
+   //  callback(err, null);
+   } else {
+   //  callback(null, results);
+   console.log(results);
+   callback(results);
+   }
+ });
+};
+
 module.exports.selectAll = selectAll;
 module.exports.saveUser = saveUser;
+module.exports.listBillSplits = listBillSplits;
 module.exports.checkIfTheUserExists = checkIfTheUserExists;
 
 

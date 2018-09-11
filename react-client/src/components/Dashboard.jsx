@@ -9,13 +9,14 @@ import Signup from './Signup.jsx'
 
 
 
+
 class Dashboard extends Component {
-  // constructor(props) {
-  //   super(props);
-  //   this.state = {
-  //     billsplititems : []
-  //   }
-  // }
+   constructor(props) {
+     super(props);
+     this.state = {
+       billSplitItems : []
+     }
+   }
 
   // componentWillMount() {
   //   this.setState({
@@ -43,12 +44,32 @@ class Dashboard extends Component {
   //   ]})
   // }
 
+   componentDidMount() {
+    let self = this;
+     fetch('/billsplits', {
+       method :  "GET",
+       }).then(function(response) {
+        if (response.status>=400) {
+
+        }
+    //    console.log("response");
+    //    console.log(response.json());
+        return response.json();
+     }).then(function (data) {
+        console.log("data response " + JSON.stringify(data))
+        var sdata = JSON.stringify(data);
+        self.setState({billSplitItems : data});
+     }).catch(err => {
+        console.log("Error in fetch " + err);
+     })
+   }
+
   render() {
     return (
       <div>
       <header>BillSplits</header>
-      <br/>
-      <UserInfo />
+      <br />
+      <UserInfo username={this.state.username}/>
       <p></p>
       <DebtsSummary />
       <br />
@@ -56,7 +77,7 @@ class Dashboard extends Component {
       <splitbutton><a>Add a New Split</a></splitbutton>
             <br />
             <br />
-        <BillSplits/>
+        <BillSplits billsplititems={this.state.billSplitItems}/>
       </div>
     );
   }
