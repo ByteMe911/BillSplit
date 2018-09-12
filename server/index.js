@@ -72,6 +72,14 @@ app.get('/login', function (req, res) {
     }
   });
 });
+
+app.get('/billsplits', function (req, res) {
+  console.log("/billsplits ");
+  items.listBillSplits(function(data) {
+    console.log("data " + JSON.stringify(data));
+    res.json(data);
+  });
+});
 app.listen(3000, function() {
   console.log('listening on port 3000!');
 });
