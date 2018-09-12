@@ -20,8 +20,6 @@ const insert = {
   event: function(eventName, userLoginID, callback) {
     let queryStr = `insert into event (eventName, userLoginID) \
     value ('${eventName}', ${userLoginID})`
-    console.log('db.js ', eventName);
-    console.log('kajdhflkjdshlkadhkajh ', queryStr)
     db.query(queryStr, function(err, result) {
       if (err) {
         console.log(err);
@@ -32,8 +30,8 @@ const insert = {
   },
 
   eventMember: function(memberID, eventID, userLoginID, callback) {
-    let queryStr = 'insert into eventMember (memberID, eventID, userLoginID) \
-    value (memberID, eventID, userLoginID)'
+    let queryStr = `insert into eventMember (memberID, eventID, userLoginID) \
+    value (${memberID}, ${eventID}, ${userLoginID})`
     db.query(queryStr, function(err, result) {
       if (err) {
         console.log(err)
@@ -43,9 +41,9 @@ const insert = {
     });
   },
 
-  debt: function(debtor, creditor, amount, userLoginID, callback) {
-    let queryStr = 'insert into debt (debtor, creditor, amount, userLoginID) \
-    value(debtor, creditor, amount, userLoginID)'
+  debt: function(debtorId, creditorId, amount, eventId, userLoginID, callback) {
+    let queryStr = `insert into debt (debtor, creditor, amount, event, userLoginID) \
+    value(${debtorId}, ${creditorId}, ${amount}, ${eventId}, ${userLoginID})`
     db.query(queryStr, function(err, result) {
       if (err) {
         console.log(err)
@@ -75,7 +73,7 @@ const select = {
 
   //used to select the debt id for use in other quaries
   debtId: function(debtor, creditor, eventId, callback) {
-    let query = 'SELECT id FROM debt \
+    let queryStr = 'SELECT id FROM debt \
     WHERE debtor = debtor AND creditor = creditor AND event = eventId'
     db.query(queryStr, function(err, result) {
       if (err) {
@@ -84,6 +82,30 @@ const select = {
         callback(result);
       }
     });
+  },
+
+  eventId: function(eventName, callback) {
+    let queryStr = `SELECT id FROM event \
+    WHERE eventName = '${eventName}'`
+    db.query(queryStr, function(err, result) {
+      if(err) {
+        console.log(err);
+      } else {
+        callback(result);
+      }
+    })
+  },
+
+  memberId: function(memberName, callback) {
+    let queryStr = `SELECT id FROM member \
+    WHERE memberName = '${memberName}'`
+    db.query(queryStr, function(err, result) {
+      if(err) {
+        console.log(err);
+      } else {
+        callback(result);
+      }
+    })
   },
 
   //used to select debt amount between 2 people
