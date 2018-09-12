@@ -41,92 +41,80 @@ app.get('/login', function (req, res) {
 app.post('/createEvent', function (req, res) {
   console.log(req.body);
   let members = [];
+  let membersName = []
   let eventName = req.body.eventName;
   let billCost = Number(req.body.billCost);
   let payee = req.body.payee;
   let evenSplit = true
 
   for (let i = 0; i < req.body.members.length; i++) {
-    if (req.body.members[i].name !== payee) {
-      members.push(req.body.members[i].name);
-    }
+      members.push([req.body.members[i].name, 1]);
+      membersName.push(`'${req.body.members[i].name}'`);
   }
 
-  // db.select.memberId(payee, function(result) {
-  //   let payeeId = result[0].id;
-  //   db.select.eventId(eventName, function(result) {
-  //     let eventId = result[0].id;
-  //     for (let i = 0; i < members.length; i++) {
-  //       if (members[i] !== payee) {
-  //         db.select.memberId(members[i], function(result) {
-  //           let debtorId = result[0].id;
-  //           db.insert.debt(debtorId, payeeId, billCost, eventId, 1, function (result) {
-  //               console.log('Debt inserted ', result);
-  //           })
-  //         })
-  //       }
-  //     }
-  //   })
-  // });
-
-  let eventId;
-  let memberId;
-  let payeeId;
-
-  db.insert.member(payee, 1, function (result) {
-    console.log('payee inserted');
-    db.select.memberId(payee, function (result) {
-      console.log('payeeId selected');
-      payeeId = result[0].id;
-      db.insert.event(eventName, 1, function(result) {
-        console.log('event inserted');
-        db.select.eventId(eventName, function(result) {
-          console.log('eventId selected');
-          eventId = result[0].id;
-          for (let i = 0; i < members.length; i++) {
-            db.insert.member(members[i], 1, function (result) {
-              console.log('member inserted');
-              db.select.memberId(members[i], function (result) {
-                console.log('memberId selected');
-                memberId = result[0].id;
-                db.insert.eventMember(memberId, eventId, 1, function (result) {
-                  console.log('eventMember inserted');
-                  db.insert.debt(memberId, payeeId, billCost, eventId, 1, function (result) {
-                    console.log('debt inserted');
-                  })
+  db.insert.manyMembers(members, function(result) {
+    console.log('insert manyMembers');
+    db.insert.event(eventName, 1, function(result) {
+      console.log('event inserted');
+      db.select.memberId(payee, function(result) {
+        console.log('payeeId selected');
+        let payeeId = result[0].id;
+        db.select.manyMembersId(membersName, function(members) {
+          db.select.eventId(eventName, function(result) {
+            console.log('eventId selected')
+            let eventId = result[0].id;
+            members.forEach(function(member) {
+              db.insert.eventMember(member.id, eventId, 1, function(result) {
+                console.log('eventMember added');
+              });
+              if (member.memberName !== payee) {
+                console.log(member.memberName);
+                console.log(payee);
+                db.insert.debt(member.id, payeeId, billCost, eventId, 1, function(result) {
+                  console.log('debt added');
                 })
-              })
-            })
-          }
+              }
+            });
+          })
         })
-      })
-    })
-  })
+      });
+    });
+  });
+    // let membersId = {};
+    // result.forEach(function(item) {
+    //   membersId[item.memberName] = item.id
 
+    // });
 
-
-
-
-  // db.insert.event(eventName, 1, function(result) {
-  //   console.log('insertEvent post success', result);
-  //   db.select.eventId(eventName, function(result) {
-  //     eventId = result[0].id;
-  //     for (let i = 0; i < members.length; i++) {
-  //       db.insert.member(members[i], 1, function(result) {
-  //         console.log('insertMember post success', result);
-  //         db.select.memberId(members[i], function(result) {
-  //           memberId = result[0].id;
-  //           db.insert.eventMember(memberId, eventId, 1, function(result) {
-  //             console.log('insert eventMember success ', result);
+  // db.insert.member(payee, 1, function (result) {
+  //   console.log('payee inserted');
+  //   db.select.memberId(payee, function (result) {
+  //     console.log('payeeId selected');
+  //     payeeId = result[0].id;
+  //     db.insert.event(eventName, 1, function(result) {
+  //       console.log('event inserted');
+  //       db.select.eventId(eventName, function(result) {
+  //         console.log('eventId selected');
+  //         eventId = result[0].id;
+  //         for (let i = 0; i < members.length; i++) {
+  //           db.insert.member(members[i], 1, function (result) {
+  //             console.log('member inserted');
+  //             db.select.memberId(members[i], function (result) {
+  //               console.log('memberId selected');
+  //               memberId = result[0].id;
+  //               db.insert.eventMember(memberId, eventId, 1, function (result) {
+  //                 console.log('eventMember inserted');
+  //                 db.insert.debt(memberId, payeeId, billCost, eventId, 1, function (result) {
+  //                   console.log('debt inserted');
+  //                 })
+  //               })
+  //             })
   //           })
-  //         })
-  //       });
-  //     }
+  //         }
+  //       })
+  //     })
   //   })
-  // });
-
-
-
+  // })
 
   //console.log('Post members ', members);
   console.log('createEvent Post');

@@ -5,6 +5,18 @@ const insert = {
 
   //there is a lot of repeating. I will refactor to implement DRY
 
+  manyMembers: function(values, callback) {
+    let queryStr = `INSERT INTO member (memberName, userLoginID) \
+    VALUES ?`
+    db.query(queryStr, [values], function(err, result) {
+      if (err) {
+        console.log(err);
+      } else {
+        callback(result);
+      }
+    })
+  },
+
   member: function (memberName, userLoginID, callback) {
     let queryStr = `insert into member (memberName, userLoginID) \
     value ('${memberName}', ${userLoginID})`
@@ -89,6 +101,20 @@ const select = {
     WHERE eventName = '${eventName}'`
     db.query(queryStr, function(err, result) {
       if(err) {
+        console.log(err);
+      } else {
+        callback(result);
+      }
+    })
+  },
+
+  manyMembersId: function (values, callback) {
+    console.log('VVVVVVV ', values);
+    let queryStr = `SELECT * FROM member \
+    WHERE memberName in (${values})`
+    console.log('QSQSQSQSQS ', queryStr);
+    db.query(queryStr, values, function(err, result) {
+      if (err) {
         console.log(err);
       } else {
         callback(result);
