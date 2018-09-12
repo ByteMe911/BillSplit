@@ -1,23 +1,23 @@
-var mysql = require('mysql');
+// var mysql = require('mysql');
 
-var connection = mysql.createConnection({
- host     : 'localhost',
- user     : 'root',
- password : '',
- database : 'billSplit'
-});
+// var connection = mysql.createConnection({
+//  host     : 'localhost',
+//  user     : 'root',
+//  password : '',
+//  database : 'billSplit'
+// });
 
 // connection.connect();
 
-connection.connect(function(err)  {
- if(err) {
-   throw err;
-  }
- else {
-   console.log("success server-database");
- }
+// connection.connect(function(err)  {
+//  if(err) {
+//    throw err;
+//   }
+//  else {
+//    console.log("success server-database");
+//  }
 
-});
+// });
 
 var saveUser = function(userNamePassword, cb) {
   console.log("in save fn");
