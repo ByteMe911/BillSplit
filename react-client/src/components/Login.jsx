@@ -12,6 +12,7 @@ import {
 } from "react-router-dom";
 import { Switch } from 'react-router-dom';
 import Dashboard from './Dashboard.jsx';
+import createEvent from './createEvent.jsx';
 
 
 
@@ -59,7 +60,7 @@ class Login extends React.Component {
   }
   render() {
     if (this.state.toWhere === 'dashboard') {
-      return <Redirect to='/dashboard' />
+      return <Redirect to='/createEvent' />
     } else if (this.state.toWhere === 'signup') {
       return <Redirect to='/signup' />
     } else {

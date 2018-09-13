@@ -19,6 +19,57 @@ connection.connect(function(err)  {
 
 });
 
+var saveEvent = function(eventObj, cb) {
+  var strEventObj = JSON.stringify(eventObj);
+  var queryStr = "INSERT into event (event) VALUES (?)";
+  connection.query(queryStr, [strEventObj], function (err, result, fields) {
+    if(err) {
+      throw err;
+    } else {
+      console.log("event object inserted");
+      cb('inserted');
+    }
+  });
+}
+
+var getEvents = function(object, cb) {
+ console.log("In get events function");
+ console.log('obj', object);
+ // var eventObj = object.split(':');
+ // console.log("1",userNamePasswordArray[0]);
+ // console.log("2",userNamePasswordArray[1]);
+ var sql = 'SELECT event FROM event';
+ connection.query(sql, function(err, results, fields) {
+   if(err) {
+     throw err;
+   } else {
+     console.log(results,"results");
+     cb(results);
+     // console.log("fields", fields);
+     // console.log("checkinguser else success");
+     // if(results.length === 0) {
+     //   console.log("User does not exist, redirect to signup page");
+     //   cb('nouser');
+     }
+  });
+}  
+   // else {
+   //     // var pwd = 'SELECT username FROM usertable WHERE username=? AND password=?'
+
+   //     console.log(results[0].password,"results[0]");
+   //     if(results[0].password  === userNamePasswordArray[1]) {
+   //       console.log("Correct password , redirect to inside the app");
+   //       cb('success');
+
+   //     } else {
+   //       console.log("Redirect to login page, wrong password");
+   //       cb('failure');
+   //     }
+   //   }
+   //   //console.log(results);
+   // }
+
+
 var saveUser = function(userNamePassword, cb) {
   console.log("in save fn");
   var userNamePasswordArray = userNamePassword.split(':');
@@ -102,9 +153,11 @@ var listBillSplits = function(callback) {
 };
 
 module.exports.selectAll = selectAll;
+module.exports.saveEvent = saveEvent;
 module.exports.saveUser = saveUser;
 module.exports.listBillSplits = listBillSplits;
 module.exports.checkIfTheUserExists = checkIfTheUserExists;
+module.exports.getEvents = getEvents;
 
 
 
