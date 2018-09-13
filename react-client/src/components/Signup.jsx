@@ -11,6 +11,7 @@ import {
 } from "react-router-dom";
 import { Switch } from 'react-router-dom';
 import Dashboard from './Dashboard.jsx';
+import createEvent from './createEvent.jsx';
 
   class Signup extends React.Component {
     constructor(props) {
@@ -51,12 +52,12 @@ import Dashboard from './Dashboard.jsx';
   render () {
     console.log("toDashboard",this.state.toDasboard);
     if (this.state.toDashboard === true) {
-      return <Redirect to='/dashboard' />
+      return <Redirect to='/createEvent' />
     } else {
       return (
 
         <div>
-          <h2>Sign up</h2>
+          <h2>Invalid Username/Password! - Please Sign Up</h2>
           <form onSubmit={this.handleSignupSubmit}>
             <label>Username:</label>
              <input id="username" type="text"    name="username"onChange={this.handleUserChange}>
