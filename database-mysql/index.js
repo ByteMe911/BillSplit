@@ -72,15 +72,12 @@ var getEvents = function(object, cb) {
 
 var saveUser = function(userNamePassword, cb) {
   console.log("in save fn");
-  var userNamePasswordArray = userNamePassword.split(':');
-  console.log("1",userNamePasswordArray[0]);
-  console.log("2",userNamePasswordArray[1]);
-  var sql = 'SELECT * FROM userlogin WHERE username=?';
-  var runQuery = 0;
+  let userNamePasswordArray = userNamePassword.split(':');
   //var sql = "INSERT INTO usertable (username, password) VALUES (?, ?)";
-  sql = "INSERT INTO userlogin (username, password) VALUES (?, ?)";
+  let sql = "INSERT INTO userdata (username, password) VALUES (?, ?)";
   connection.query(sql, [userNamePasswordArray[0], userNamePasswordArray[1]], function (err, result, fields) {
     if(err) {
+      console.log('ERROR inserting user');
       throw err;
     } else {
       console.log("new user inserted");
