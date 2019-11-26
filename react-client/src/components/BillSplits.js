@@ -4,7 +4,6 @@ import BillSplitItem from './BillSplitItem';
 class BillSplits extends Component {
 
   render() {
-  //  console.log(this.props.billsplititems);
     let billSplitItems;
     if (this.props.billsplititems) {
         billSplitItems = this.props.billsplititems.map(function(billsplititem) {

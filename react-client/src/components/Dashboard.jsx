@@ -5,7 +5,10 @@ import UserInfo from './UserInfo.jsx';
 import BillSplitItem from './BillSplitItem.jsx';
 import DebtsSummary from './DebtsSummary.jsx';
 import App from '../index.jsx';
-import Signup from './Signup.jsx'
+import Signup from './Signup.jsx';
+import CreateEvent from './CreateEvent.jsx';
+
+import { Link } from 'react-router-dom';
 
 
 
@@ -69,12 +72,10 @@ class Dashboard extends Component {
       <div>
       <header>BillSplits</header>
       <br />
-      <UserInfo username={this.state.username}/>
-      <p></p>
       <DebtsSummary />
       <br />
       <br />
-      <splitbutton><a>Add a New Split</a></splitbutton>
+      <a><Link to=''></Link>Add a New Split</a>
             <br />
             <br />
         <BillSplits billsplititems={this.state.billSplitItems}/>

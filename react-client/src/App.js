@@ -2,7 +2,9 @@ import React, { Component } from 'react';
 import BillSplits from './components/BillSplits'
 import UserInfo from './components/UserInfo'
 import DebtsSummary from './components/DebtsSummary'
+import CreateEvent from './Components/CreateEvent';
 import './App.css';
+import { Route, Link } from 'react-router-dom';
 
 class App extends Component {
   constructor() {
@@ -46,12 +48,7 @@ class App extends Component {
       <UserInfo />
       <p></p>
       <DebtsSummary />
-      <br />
-      <br />
-      <splitbutton><a>Add a New Split</a></splitbutton>
-            <br />
-            <br />
-        <BillSplits billsplititems={this.state.billsplititems} />
+      <BillSplits billsplititems={this.state.billsplititems} />
       </div>
     );
   }
